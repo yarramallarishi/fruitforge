@@ -43,7 +43,7 @@ npx wrangler d1 migrations apply fruitforge-db --local
 npm run worker:dev
 ```
 
-Open the local address printed by Wrangler (normally `http://localhost:8787`). Local D1 starts with the schema, catalog, and available values from `data/fruits.json`. Cloudflare Access secrets are not set locally, so admin writes fail closed. Test administrator flows in a protected Cloudflare preview environment; there is no local password bypass.
+Open the local address printed by Wrangler (normally `http://localhost:8787`). Local D1 starts with the schema, catalog, and available values from `data/fruits.json`. Admin password/session secrets are not set locally, so admin writes fail closed; there is no local password bypass.
 
 To refresh the seed migrations after an approved catalog change, edit `data/fruits.json`, then run:
 
@@ -79,39 +79,17 @@ npx wrangler d1 migrations apply fruitforge-preview-db --remote --env preview
 
 The catalog seed adds item identities, and the values seed imports available estimates from `data/fruits.json` only where D1 has no existing value row. Neither migration overwrites existing identities or values. Migrations are also applied automatically by the GitHub deployment workflow before it deploys the Worker.
 
-### 2. Configure administrator authentication
+### 2. Configure administrator password sign-in
 
-Create two Cloudflare Access self-hosted applications on the production hostname:
-
-1. Protect `/admin*`.
-2. Protect `/api/admin*`.
-
-Set each Access policy to allow only the exact administrator email addresses you intend to use. These path-specific applications keep the public site anonymous while protecting both the dashboard page and every admin API request. Keep the Access applications and identity provider restricted; do not add an “Everyone” allow policy.
-
-Copy both Application Audience tags. Set the following Worker secrets using Wrangler’s secure prompt (do not commit them):
+Set one Worker secret through Wrangler’s secure prompt. Keep it out of source control:
 
 ```sh
-npx wrangler secret put CF_ACCESS_TEAM_DOMAIN
-npx wrangler secret put CF_ACCESS_AUD
-npx wrangler secret put ADMIN_EMAILS
-npx wrangler secret put RATE_LIMIT_SALT
+npx wrangler secret put ADMIN_PASSWORD
 ```
 
-- `CF_ACCESS_TEAM_DOMAIN`: your team hostname such as `team-name.cloudflareaccess.com` (no scheme).
-- `CF_ACCESS_AUD`: the two audience tags, separated by a comma.
-- `ADMIN_EMAILS`: the exact comma-separated email allowlist. It must match the Access policy.
-- `RATE_LIMIT_SALT`: a random secret with at least 32 characters, used to hash request IPs before short-window rate-limit records are stored.
+- `ADMIN_PASSWORD`: use one strong password with at least 16 characters. The Worker derives separate signing and rate-limit keys internally from this password.
 
-For the preview Worker, create equivalent Access applications on its preview hostname, then set environment-scoped secrets:
-
-```sh
-npx wrangler secret put CF_ACCESS_TEAM_DOMAIN --env preview
-npx wrangler secret put CF_ACCESS_AUD --env preview
-npx wrangler secret put ADMIN_EMAILS --env preview
-npx wrangler secret put RATE_LIMIT_SALT --env preview
-```
-
-The Worker validates the Access JWT signature, issuer, expiration, audience, and email against Cloudflare’s signing keys on every administrative operation. It also checks request origin for writes and rate-limits administrative mutations. Cloudflare Access handles the sign-in flow; this application never asks for Roblox credentials.
+The admin page and every `/api/admin/*` endpoint require the server-issued, HttpOnly, Secure, same-site session cookie. Login is rate-limited, write requests must come from the site’s own origin, and logout clears the cookie. Set a separate password on the preview Worker before using its admin page. Never reuse a Roblox password or put the password in the repository.
 
 ### 3. Set the public URL and custom domain
 
@@ -132,7 +110,7 @@ If using Cloudflare Workers Builds instead of this GitHub Actions workflow, set 
 
 ### 5. Preview deployments
 
-The `preview` Wrangler environment points to its own Worker name and D1 database. After the preview database ID and Access secrets are configured, use:
+The `preview` Wrangler environment points to its own Worker name and D1 database. After the preview database ID and `ADMIN_PASSWORD` are configured, use:
 
 ```sh
 npm run build
@@ -140,11 +118,11 @@ npx wrangler d1 migrations apply fruitforge-preview-db --remote --env preview
 npx wrangler deploy --env preview
 ```
 
-Use separate preview Access audience tags, a restricted email policy, and preview-only data. Never point preview at the production database.
+Set a separate `ADMIN_PASSWORD` for the preview Worker and use preview-only data. Never point preview at the production database.
 
 ## Admin workflow
 
-1. Open `/admin` and sign in through Cloudflare Access with an allowed email.
+1. Open `/admin` and sign in with the site password.
 2. Search the fixed catalog and edit regular/permanent estimates, demand, trend, confidence, or an optional note.
 3. Save one row or save all edited rows as drafts.
 4. Import/export CSV or download the template. Imports only accept existing catalog IDs and known value columns; an invalid row rejects the whole import.
@@ -176,7 +154,7 @@ Public endpoints:
 - `POST /api/trades/:id/report`
 - `POST /api/feedback`
 
-Administrative endpoints are under `/api/admin/*`, and every one validates the Access JWT on the Worker. The Worker serves the Vite SPA assets and SEO metadata from the same hostname; requests to unknown page paths return the app’s 404 response with HTTP 404.
+Administrative endpoints are under `/api/admin/*`, and every one validates a signed password session on the Worker. The Worker serves the Vite SPA assets and SEO metadata from the same hostname; requests to unknown page paths return the app’s 404 response with HTTP 404.
 
 D1 is SQLite-compatible. Queries use prepared statements and bound values. Multi-write publication and bulk import use D1 batches; Cloudflare documents that a failed statement aborts and rolls back the batch. Reads use the primary database, so a newly published version is not combined with values from a stale replica.
 
@@ -204,4 +182,4 @@ npm test
 npm run build
 ```
 
-The source includes tests for canonical IDs/names, value field validation, CSV parsing, zero/missing values, rounding, quantity math, fairness thresholds, share-link parsing, dataset replacement, and unauthenticated admin publication. Run them in your environment before a release. The tests do not claim to exercise a live Cloudflare Access provider or a remote D1 account.
+The source includes tests for canonical IDs/names, value field validation, CSV parsing, zero/missing values, rounding, quantity math, fairness thresholds, share-link parsing, dataset replacement, and unauthenticated admin publication. Run them in your environment before a release. The tests do not claim to exercise the live password sign-in flow or a remote D1 account.

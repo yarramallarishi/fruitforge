@@ -1,10 +1,7 @@
 interface Env {
   DB: D1Database;
   ASSETS: Fetcher;
-  CF_ACCESS_TEAM_DOMAIN?: string;
-  CF_ACCESS_AUD?: string;
-  ADMIN_EMAILS?: string;
-  RATE_LIMIT_SALT?: string;
+  ADMIN_PASSWORD?: string;
   PUBLIC_SITE_URL?: string;
 }
 
@@ -18,8 +15,6 @@ type ValueFields = {
 };
 type CatalogRow = { id: string; name: string; slug: string; category: string; rarity: string | null; type: string | null; enabled: number; catalogVersion: number };
 type ValueRow = ValueFields & { id: string; name: string; slug: string; category: string; rarity: string | null; type: string | null; enabled: boolean; lastUpdated: string | null; lastPublished: string | null; datasetVersion: number; draft?: ValueFields; draftUpdatedAt?: string | null };
-type JwtClaims = { iss?: string; aud?: string | string[]; exp?: number; nbf?: number; email?: string; sub?: string };
-
 const valueKeys = ['regularValue', 'permanentValue', 'demand', 'trend', 'confidence', 'note'] as const;
 const sqlColumn: Record<(typeof valueKeys)[number], string> = {
   regularValue: 'regular_value', permanentValue: 'permanent_value', demand: 'demand',
@@ -113,54 +108,54 @@ async function getPublished(db: D1Database): Promise<{ values: ValueRow[]; versi
   return { values, version: Number(latest?.version ?? 0), lastUpdated: latest?.publishedAt ?? null, publishedAt: latest?.publishedAt ?? null };
 }
 
-let jwksCache: { keys: JsonWebKey[]; expires: number } | null = null;
+const adminCookieName = 'ff_admin';
+const adminSessionSeconds = 8 * 60 * 60;
 function decodeBase64Url(value: string): Uint8Array {
   const padded = value.replaceAll('-', '+').replaceAll('_', '/') + '='.repeat((4 - value.length % 4) % 4);
   return Uint8Array.from(atob(padded), (character) => character.charCodeAt(0));
 }
-function decodePart<T>(value: string): T { return JSON.parse(new TextDecoder().decode(decodeBase64Url(value))) as T; }
-async function accessKeys(env: Env): Promise<JsonWebKey[]> {
-  if (jwksCache && jwksCache.expires > Date.now()) return jwksCache.keys;
-  const team = (env.CF_ACCESS_TEAM_DOMAIN || '').trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
-  if (!team || !team.endsWith('.cloudflareaccess.com')) throw new Error('Cloudflare Access team domain is not configured.');
-  const response = await fetch(`https://${team}/cdn-cgi/access/certs`, { headers: { Accept: 'application/json' } });
-  if (!response.ok) throw new Error('Could not load Cloudflare Access signing keys.');
-  const data = await response.json() as { keys?: JsonWebKey[] };
-  if (!Array.isArray(data.keys)) throw new Error('Cloudflare Access signing keys are invalid.');
-  jwksCache = { keys: data.keys, expires: Date.now() + 10 * 60 * 1000 };
-  return data.keys;
+function encodeBase64Url(value: Uint8Array): string {
+  let binary = '';
+  for (const byte of value) binary += String.fromCharCode(byte);
+  return btoa(binary).replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/, '');
 }
-async function verifyAccess(request: Request, env: Env): Promise<string | null> {
-  const token = request.headers.get('Cf-Access-Jwt-Assertion');
-  const audiences = (env.CF_ACCESS_AUD || '').split(',').map((value) => value.trim()).filter(Boolean);
-  if (!token || !audiences.length) return null;
+function cookie(request: Request, name: string): string | null {
+  const prefix = `${name}=`;
+  const entry = (request.headers.get('Cookie') || '').split(';').map((part) => part.trim()).find((part) => part.startsWith(prefix));
+  return entry ? entry.slice(prefix.length) : null;
+}
+async function derivedAdminKey(password: string, purpose: string, usages: KeyUsage[]) {
+  const root = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const material = await crypto.subtle.sign('HMAC', root, new TextEncoder().encode(`FruitForge:${purpose}:v1`));
+  return crypto.subtle.importKey('raw', material, { name: 'HMAC', hash: 'SHA-256' }, false, usages);
+}
+async function createAdminSession(password: string): Promise<string> {
+  const claims = { sub: 'site-admin', exp: Math.floor(Date.now() / 1000) + adminSessionSeconds };
+  const payload = encodeBase64Url(new TextEncoder().encode(JSON.stringify(claims)));
+  const key = await derivedAdminKey(password, 'admin-session', ['sign']);
+  const signature = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(payload));
+  return `${payload}.${encodeBase64Url(new Uint8Array(signature))}`;
+}
+async function verifyAdminSession(request: Request, env: Env): Promise<string | null> {
+  const password = env.ADMIN_PASSWORD || '';
+  const token = cookie(request, adminCookieName);
+  if (password.length < 16 || !token) return null;
   try {
     const parts = token.split('.');
-    if (parts.length !== 3) return null;
-    const header = decodePart<{ alg?: string; kid?: string }>(parts[0]);
-    const claims = decodePart<JwtClaims>(parts[1]);
-    if (header.alg !== 'RS256' || !header.kid || !claims.email || !claims.sub || !claims.iss) return null;
-    const team = (env.CF_ACCESS_TEAM_DOMAIN || '').trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
-    if (claims.iss !== `https://${team}` || !claims.exp || claims.exp <= Date.now() / 1000 || (claims.nbf && claims.nbf > Date.now() / 1000)) return null;
-    const aud = Array.isArray(claims.aud) ? claims.aud : [claims.aud];
-    if (!audiences.some((audience) => aud.includes(audience))) return null;
-    const jwk = (await accessKeys(env)).find((key) => (key as JsonWebKey & { kid?: string }).kid === header.kid);
-    if (!jwk) return null;
-    const key = await crypto.subtle.importKey('jwk', jwk, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']);
-    const signed = new TextEncoder().encode(`${parts[0]}.${parts[1]}`);
-    const signature = decodeBase64Url(parts[2]);
-    if (!await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, signature as unknown as BufferSource, signed as unknown as BufferSource)) return null;
-    const allowed = new Set((env.ADMIN_EMAILS || '').split(',').map((email) => email.trim().toLowerCase()).filter(Boolean));
-    const email = claims.email.trim().toLowerCase();
-    return allowed.has(email) ? email : null;
+    if (parts.length !== 2) return null;
+    const key = await derivedAdminKey(password, 'admin-session', ['verify']);
+    const valid = await crypto.subtle.verify('HMAC', key, decodeBase64Url(parts[1]) as unknown as BufferSource, new TextEncoder().encode(parts[0]) as unknown as BufferSource);
+    if (!valid) return null;
+    const claims = JSON.parse(new TextDecoder().decode(decodeBase64Url(parts[0]))) as { sub?: string; exp?: number };
+    return claims.sub === 'site-admin' && Number.isInteger(claims.exp) && Number(claims.exp) > Date.now() / 1000 ? 'site-admin' : null;
   } catch { return null; }
 }
 async function admin(request: Request, env: Env, mutation = false): Promise<string | Response> {
   if (mutation && !sameOrigin(request)) return error('Request origin could not be verified.', 403);
-  const email = await verifyAccess(request, env);
-  if (!email) return error('Administrator access required. Sign in through the configured Cloudflare Access application.', 401);
+  const identity = await verifyAdminSession(request, env);
+  if (!identity) return error('Administrator session required. Sign in with the site password.', 401);
   if (mutation) {
-    const key = await hash(`admin:${email}`), nowSeconds = Math.floor(Date.now() / 1000), windowSeconds = 60;
+    const key = await hash(`admin:${identity}`), nowSeconds = Math.floor(Date.now() / 1000), windowSeconds = 60;
     await env.DB.prepare(`INSERT INTO submission_windows(key_hash, action, window_started, count) VALUES (?, 'admin-write', ?, 1)
       ON CONFLICT(key_hash, action) DO UPDATE SET count=CASE WHEN window_started<=? THEN 1 ELSE count+1 END,
       window_started=CASE WHEN window_started<=? THEN excluded.window_started ELSE window_started END`)
@@ -170,8 +165,8 @@ async function admin(request: Request, env: Env, mutation = false): Promise<stri
   }
   const now = isoNow();
   await env.DB.prepare(`INSERT INTO administrators(email, first_seen_at, last_seen_at) VALUES (?, ?, ?)
-    ON CONFLICT(email) DO UPDATE SET last_seen_at = excluded.last_seen_at`).bind(email, now, now).run();
-  return email;
+    ON CONFLICT(email) DO UPDATE SET last_seen_at = excluded.last_seen_at`).bind(identity, now, now).run();
+  return identity;
 }
 function audit(db: D1Database, email: string, action: string, ids: string[], details: unknown, at = isoNow()) {
   return db.prepare('INSERT INTO audit_logs(admin_email, action, affected_ids_json, details_json, created_at) VALUES (?, ?, ?, ?, ?)')
@@ -335,9 +330,14 @@ async function hash(text: string) {
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
   return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
 }
+async function keyedHash(secret: string, purpose: string, value: string) {
+  const key = await derivedAdminKey(secret, purpose, ['sign']);
+  const digest = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(value));
+  return encodeBase64Url(new Uint8Array(digest));
+}
 async function rateCheck(request: Request, env: Env, action: string, maximum: number, windowSeconds = 3600) {
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
-  const key = await hash(`${env.RATE_LIMIT_SALT || 'development-only-change-this'}:${ip}`);
+  const key = await keyedHash(env.ADMIN_PASSWORD || 'development-only-change-this', 'rate-limit-ip', ip);
   const now = Math.floor(Date.now() / 1000);
   await env.DB.prepare(`INSERT INTO submission_windows(key_hash, action, window_started, count) VALUES (?, ?, ?, 1)
     ON CONFLICT(key_hash, action) DO UPDATE SET
@@ -371,6 +371,26 @@ async function submission(request: Request, env: Env, action: string, maximum = 
 async function api(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url), path = url.pathname, method = request.method;
   const noCache = { 'Cache-Control': 'no-store' };
+  if (path === '/api/admin/login' && method === 'POST') {
+    if (!sameOrigin(request)) return error('Request origin could not be verified.', 403);
+    const expected = env.ADMIN_PASSWORD || '';
+    if (expected.length < 16) return error('Admin password sign-in is not configured.', 503);
+    if (!await rateCheck(request, env, 'admin-login', 8, 3600)) return error('Too many sign-in attempts. Try again later.', 429);
+    const body = await readJson(request, 2_048);
+    if (!body || typeof body.password !== 'string' || body.password.length > 256) return error('The password is incorrect.', 401);
+    const [providedHash, expectedHash] = await Promise.all([hash(body.password), hash(expected)]);
+    let mismatch = providedHash.length ^ expectedHash.length;
+    for (let i = 0; i < Math.max(providedHash.length, expectedHash.length); i++) {
+      mismatch |= (providedHash.charCodeAt(i) || 0) ^ (expectedHash.charCodeAt(i) || 0);
+    }
+    if (mismatch !== 0) return error('The password is incorrect.', 401);
+    const session = await createAdminSession(expected);
+    return json({ authenticated: true }, 200, { 'Set-Cookie': `${adminCookieName}=${session}; Max-Age=${adminSessionSeconds}; Path=/api/admin; HttpOnly; Secure; SameSite=Strict` });
+  }
+  if (path === '/api/admin/logout' && method === 'POST') {
+    if (!sameOrigin(request)) return error('Request origin could not be verified.', 403);
+    return json({ authenticated: false }, 200, { 'Set-Cookie': `${adminCookieName}=; Max-Age=0; Path=/api/admin; HttpOnly; Secure; SameSite=Strict` });
+  }
   if (path === '/api/catalog' && method === 'GET') return json({ items: await getCatalog(env.DB, true), catalogVersion: 1 }, 200, { 'Cache-Control': 'public, max-age=3600' });
   if (path === '/api/values' && method === 'GET') {
     const data = await getPublished(env.DB);
