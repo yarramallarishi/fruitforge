@@ -1,15 +1,33 @@
 import { describe, expect, it } from 'vitest';
-import fruits from '../data/fruits.json';
+import { catalog } from '../src/catalog';
 import { validatePatch, parseCsv, valueFromCsv } from '../worker/index';
 
-describe('canonical fruit catalog', () => {
+const idPrefixByCategory: Record<string, string> = {
+  fruit: 'fruit-',
+  'permanent-fruit': 'perm-fruit-',
+  gamepass: 'gamepass-',
+  'limited-asset': 'limited-',
+  'limited-skin': 'skin-',
+};
+
+describe('canonical item catalog', () => {
   it('has a non-empty stable ID and canonical name for every entry', () => {
-    expect(fruits.length).toBeGreaterThan(0);
-    for (const item of fruits) { expect(item.id).toMatch(/^fruit-[a-z0-9-]+$/); expect(item.name.trim().length).toBeGreaterThan(0); }
+    expect(catalog.length).toBeGreaterThan(0);
+    for (const item of catalog) {
+      expect(idPrefixByCategory[item.category]).toBeDefined();
+      expect(item.id).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+      expect(item.id.startsWith(idPrefixByCategory[item.category] ?? '')).toBe(true);
+      expect(item.name.trim().length).toBeGreaterThan(0);
+      expect(item.slug.length).toBeGreaterThan(0);
+      expect(item.catalogVersion).toBe(1);
+    }
   });
-  it('contains no duplicate IDs or canonical names', () => {
-    expect(new Set(fruits.map((item) => item.id)).size).toBe(fruits.length);
-    expect(new Set(fruits.map((item) => item.name.toLowerCase())).size).toBe(fruits.length);
+  it('contains no duplicate IDs or canonical names within a category', () => {
+    expect(new Set(catalog.map((item) => item.id)).size).toBe(catalog.length);
+    for (const category of Object.keys(idPrefixByCategory)) {
+      const names = catalog.filter((item) => item.category === category).map((item) => item.name.toLowerCase());
+      expect(new Set(names).size).toBe(names.length);
+    }
   });
   it('rejects attempts to rename catalog entries or pass unsupported fields', () => {
     expect(validatePatch({ name: 'Different Name' })).toContain('Only');
