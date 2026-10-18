@@ -133,999 +133,319 @@ INSERT OR IGNORE INTO canonical_items(id, name, slug, category, rarity, item_typ
   ('limited-eagle-glacier', 'Eagle Glacier', 'limited-eagle-glacier', 'limited-asset', 'Limited', 'Limited', 1, 1),
   ('limited-eagle-matrix', 'Eagle Matrix', 'limited-eagle-matrix', 'limited-asset', 'Limited', 'Limited', 1, 1);
 
+WITH seed(id, regular_value, permanent_value, demand, trend, confidence, note, observed) AS (VALUES
+  ('fruit-rocket', 5000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spin', 7500, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-blade', 50000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spring', 60000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-bomb', 80000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-smoke', 100000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spike', 180000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-flame', 250000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-ice', 550000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-sand', 420000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-dark', 400000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-eagle', 800000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-diamond', 1000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-light', 800000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-rubber', 700000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-ghost', 800000, NULL, 1, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Underpaid', '2026-10-17'),
+  ('fruit-magma', 1150000, NULL, 5, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('fruit-quake', 1000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-buddha', 10000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('fruit-love', 1500000, NULL, 3, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-creation', 2500000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spider', 1500000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-sound', 2500000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-phoenix', 2750000, NULL, 3, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-portal', 10000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('fruit-lightning', 30000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-pain', 10000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-blizzard', 5000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-gravity', 10000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-mammoth', 10000000, 4100000000, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-t-rex', 20000000, NULL, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-dough', 30000000, 4100000000, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-shadow', 6500000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-venom', 25000000, NULL, 9, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-gas', 60000000, 4520000000, 9, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-spirit', 10000000, 4520000000, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-tiger', 100000000, 5150000000, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-yeti', 90000000, 5150000000, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-kitsune', 540000000, 5980000000, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-control', 120000000, 5980000000, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-dragon', NULL, 6900000000, NULL, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unrated. Permanent value 6900000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-magnet', 570000000, 4890000000, 7, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unstable. Permanent value 4890000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('perm-fruit-mammoth', 4100000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-dough', 4100000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-gas', 4520000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-spirit', 4520000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-tiger', 5150000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-yeti', 5150000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-kitsune', 5980000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-control', 5980000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-dragon', 6900000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-magnet', 4890000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('skin-blade-lime', 10000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-nuclear', 540000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-thermite', 510000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-azura', 570000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-celebration', 10000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-emerald', 180000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-rose-quartz', 240000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-topaz', 10000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-ruby', 110000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-ghost-scarlet', 20000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-gravity-starlight', 420000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-purple', 4860000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-yellow', 150000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-green', 270000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-red', 2340000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-portal-divine', 2610000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('skin-kitsune-crimson', 7860000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-kitsune-galaxy', 9750000000, NULL, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-magnet-arcsteel', 2820000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-yeti-runic', 1800000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('gamepass-fruit-notifier', 3410000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-dark-blade', 900000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-mythical-scrolls', 1340000000, NULL, 4, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-legendary-scrolls', 570000000, NULL, 3, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-fruit-storage', 360000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-2x-mastery', 390000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-2x-money', 390000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-2x-boss-drops', 240000000, NULL, 8, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-fast-boats', 240000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('limited-doghouse-frame-break', 17670000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON', '2026-10-17'),
+  ('limited-rabid-dog-blade', 26670000000, NULL, 8, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON', '2026-10-17'),
+  ('limited-dog-blade', 1800000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('limited-fiend-yeti', 1260000000, NULL, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-ember-west-dragon', 6780000000, NULL, 9, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-vibe-frame-break', 14370000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Unstable', '2026-10-17'),
+  ('limited-runic-fiend', 1800000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-meme-meme', 6240000000, NULL, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-parrot', 7590000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-werewolf', 1320000000, NULL, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-super-spirit-pain', 2700000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-torment-pain', 110000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-sadness-pain', 540000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-frustration-pain', 540000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-celestial-pain', 690000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-eagle-requiem', 210000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-eagle-glacier', 20000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-eagle-matrix', 390000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17')
+), eligible AS (SELECT * FROM seed WHERE (seed.regular_value IS NOT NULL OR seed.permanent_value IS NOT NULL OR seed.demand IS NOT NULL OR seed.trend <> 'unknown') AND NOT EXISTS (SELECT 1 FROM current_values AS existing WHERE existing.fruit_id = seed.id))
 INSERT INTO published_datasets(version, published_by, published_at, item_count, changes_json)
-SELECT COALESCE(MAX(version), 0) + 1, 'catalog-seed', CURRENT_TIMESTAMP,
-  (SELECT COUNT(*) FROM (SELECT 'fruit-rocket' AS id, 5000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spin' AS id, 7500 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-blade' AS id, 50000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spring' AS id, 60000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-bomb' AS id, 80000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-smoke' AS id, 100000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spike' AS id, 180000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-flame' AS id, 250000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-ice' AS id, 550000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-sand' AS id, 420000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dark' AS id, 400000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-eagle' AS id, 800000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-diamond' AS id, 1000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-light' AS id, 800000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-rubber' AS id, 700000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-ghost' AS id, 800000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Underpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-magma' AS id, 1150000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-quake' AS id, 1000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-buddha' AS id, 10000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-love' AS id, 1500000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-creation' AS id, 2500000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spider' AS id, 1500000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-sound' AS id, 2500000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-phoenix' AS id, 2750000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-portal' AS id, 10000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-lightning' AS id, 30000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-pain' AS id, 10000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-blizzard' AS id, 5000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-gravity' AS id, 10000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-mammoth' AS id, 10000000 AS regular_value, 4100000000 AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-t-rex' AS id, 20000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dough' AS id, 30000000 AS regular_value, 4100000000 AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-shadow' AS id, 6500000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-venom' AS id, 25000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-gas' AS id, 60000000 AS regular_value, 4520000000 AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spirit' AS id, 10000000 AS regular_value, 4520000000 AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-tiger' AS id, 100000000 AS regular_value, 5150000000 AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-yeti' AS id, 90000000 AS regular_value, 5150000000 AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-kitsune' AS id, 540000000 AS regular_value, 5980000000 AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-control' AS id, 120000000 AS regular_value, 5980000000 AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dragon' AS id, NULL AS regular_value, 6900000000 AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unrated. Permanent value 6900000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-magnet' AS id, 570000000 AS regular_value, 4890000000 AS permanent_value, 7 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unstable. Permanent value 4890000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-mammoth' AS id, 4100000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-dough' AS id, 4100000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-gas' AS id, 4520000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-spirit' AS id, 4520000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-tiger' AS id, 5150000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-yeti' AS id, 5150000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-kitsune' AS id, 5980000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-control' AS id, 5980000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-dragon' AS id, 6900000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-magnet' AS id, 4890000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-blade-lime' AS id, 10000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-nuclear' AS id, 540000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-thermite' AS id, 510000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-azura' AS id, 570000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-celebration' AS id, 10000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-emerald' AS id, 180000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-rose-quartz' AS id, 240000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-topaz' AS id, 10000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-ruby' AS id, 110000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-ghost-scarlet' AS id, 20000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-gravity-starlight' AS id, 420000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-purple' AS id, 4860000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-yellow' AS id, 150000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-green' AS id, 270000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-red' AS id, 2340000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-portal-divine' AS id, 2610000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-kitsune-crimson' AS id, 7860000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-kitsune-galaxy' AS id, 9750000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-magnet-arcsteel' AS id, 2820000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-yeti-runic' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'gamepass-fruit-notifier' AS id, 3410000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-dark-blade' AS id, 900000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-mythical-scrolls' AS id, 1340000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-legendary-scrolls' AS id, 570000000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-fruit-storage' AS id, 360000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-mastery' AS id, 390000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-money' AS id, 390000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-boss-drops' AS id, 240000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-fast-boats' AS id, 240000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'limited-doghouse-frame-break' AS id, 17670000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-rabid-dog-blade' AS id, 26670000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-dog-blade' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-fiend-yeti' AS id, 1260000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-ember-west-dragon' AS id, 6780000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-vibe-frame-break' AS id, 14370000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Unstable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-runic-fiend' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-meme-meme' AS id, 6240000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-parrot' AS id, 7590000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-werewolf' AS id, 1320000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-super-spirit-pain' AS id, 2700000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-torment-pain' AS id, 110000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-sadness-pain' AS id, 540000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-frustration-pain' AS id, 540000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-celestial-pain' AS id, 690000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-requiem' AS id, 210000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-glacier' AS id, 20000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-matrix' AS id, 390000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed) AS seed WHERE (seed.regular_value IS NOT NULL OR seed.permanent_value IS NOT NULL OR seed.demand IS NOT NULL OR seed.trend <> 'unknown') AND NOT EXISTS (SELECT 1 FROM current_values AS existing WHERE existing.fruit_id = seed.id)),
-  COALESCE((SELECT json_group_array(json_object('id', seed.id, 'regularValue', seed.regular_value, 'permanentValue', seed.permanent_value)) FROM (SELECT 'fruit-rocket' AS id, 5000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spin' AS id, 7500 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-blade' AS id, 50000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spring' AS id, 60000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-bomb' AS id, 80000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-smoke' AS id, 100000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spike' AS id, 180000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-flame' AS id, 250000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-ice' AS id, 550000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-sand' AS id, 420000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dark' AS id, 400000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-eagle' AS id, 800000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-diamond' AS id, 1000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-light' AS id, 800000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-rubber' AS id, 700000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-ghost' AS id, 800000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Underpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-magma' AS id, 1150000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-quake' AS id, 1000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-buddha' AS id, 10000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-love' AS id, 1500000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-creation' AS id, 2500000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spider' AS id, 1500000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-sound' AS id, 2500000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-phoenix' AS id, 2750000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-portal' AS id, 10000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-lightning' AS id, 30000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-pain' AS id, 10000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-blizzard' AS id, 5000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-gravity' AS id, 10000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-mammoth' AS id, 10000000 AS regular_value, 4100000000 AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-t-rex' AS id, 20000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dough' AS id, 30000000 AS regular_value, 4100000000 AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-shadow' AS id, 6500000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-venom' AS id, 25000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-gas' AS id, 60000000 AS regular_value, 4520000000 AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spirit' AS id, 10000000 AS regular_value, 4520000000 AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-tiger' AS id, 100000000 AS regular_value, 5150000000 AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-yeti' AS id, 90000000 AS regular_value, 5150000000 AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-kitsune' AS id, 540000000 AS regular_value, 5980000000 AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-control' AS id, 120000000 AS regular_value, 5980000000 AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dragon' AS id, NULL AS regular_value, 6900000000 AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unrated. Permanent value 6900000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-magnet' AS id, 570000000 AS regular_value, 4890000000 AS permanent_value, 7 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unstable. Permanent value 4890000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-mammoth' AS id, 4100000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-dough' AS id, 4100000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-gas' AS id, 4520000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-spirit' AS id, 4520000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-tiger' AS id, 5150000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-yeti' AS id, 5150000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-kitsune' AS id, 5980000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-control' AS id, 5980000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-dragon' AS id, 6900000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-magnet' AS id, 4890000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-blade-lime' AS id, 10000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-nuclear' AS id, 540000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-thermite' AS id, 510000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-azura' AS id, 570000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-celebration' AS id, 10000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-emerald' AS id, 180000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-rose-quartz' AS id, 240000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-topaz' AS id, 10000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-ruby' AS id, 110000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-ghost-scarlet' AS id, 20000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-gravity-starlight' AS id, 420000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-purple' AS id, 4860000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-yellow' AS id, 150000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-green' AS id, 270000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-red' AS id, 2340000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-portal-divine' AS id, 2610000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-kitsune-crimson' AS id, 7860000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-kitsune-galaxy' AS id, 9750000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-magnet-arcsteel' AS id, 2820000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-yeti-runic' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'gamepass-fruit-notifier' AS id, 3410000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-dark-blade' AS id, 900000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-mythical-scrolls' AS id, 1340000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-legendary-scrolls' AS id, 570000000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-fruit-storage' AS id, 360000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-mastery' AS id, 390000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-money' AS id, 390000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-boss-drops' AS id, 240000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-fast-boats' AS id, 240000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'limited-doghouse-frame-break' AS id, 17670000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-rabid-dog-blade' AS id, 26670000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-dog-blade' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-fiend-yeti' AS id, 1260000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-ember-west-dragon' AS id, 6780000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-vibe-frame-break' AS id, 14370000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Unstable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-runic-fiend' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-meme-meme' AS id, 6240000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-parrot' AS id, 7590000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-werewolf' AS id, 1320000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-super-spirit-pain' AS id, 2700000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-torment-pain' AS id, 110000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-sadness-pain' AS id, 540000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-frustration-pain' AS id, 540000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-celestial-pain' AS id, 690000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-requiem' AS id, 210000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-glacier' AS id, 20000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-matrix' AS id, 390000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed) AS seed WHERE (seed.regular_value IS NOT NULL OR seed.permanent_value IS NOT NULL OR seed.demand IS NOT NULL OR seed.trend <> 'unknown') AND NOT EXISTS (SELECT 1 FROM current_values AS existing WHERE existing.fruit_id = seed.id)), '[]')
-FROM published_datasets
-HAVING (SELECT COUNT(*) FROM (SELECT 'fruit-rocket' AS id, 5000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spin' AS id, 7500 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-blade' AS id, 50000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spring' AS id, 60000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-bomb' AS id, 80000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-smoke' AS id, 100000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spike' AS id, 180000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-flame' AS id, 250000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-ice' AS id, 550000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-sand' AS id, 420000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dark' AS id, 400000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-eagle' AS id, 800000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-diamond' AS id, 1000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-light' AS id, 800000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-rubber' AS id, 700000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-ghost' AS id, 800000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Underpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-magma' AS id, 1150000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-quake' AS id, 1000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-buddha' AS id, 10000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-love' AS id, 1500000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-creation' AS id, 2500000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spider' AS id, 1500000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-sound' AS id, 2500000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-phoenix' AS id, 2750000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-portal' AS id, 10000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-lightning' AS id, 30000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-pain' AS id, 10000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-blizzard' AS id, 5000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-gravity' AS id, 10000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-mammoth' AS id, 10000000 AS regular_value, 4100000000 AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-t-rex' AS id, 20000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dough' AS id, 30000000 AS regular_value, 4100000000 AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-shadow' AS id, 6500000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-venom' AS id, 25000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-gas' AS id, 60000000 AS regular_value, 4520000000 AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spirit' AS id, 10000000 AS regular_value, 4520000000 AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-tiger' AS id, 100000000 AS regular_value, 5150000000 AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-yeti' AS id, 90000000 AS regular_value, 5150000000 AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-kitsune' AS id, 540000000 AS regular_value, 5980000000 AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-control' AS id, 120000000 AS regular_value, 5980000000 AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dragon' AS id, NULL AS regular_value, 6900000000 AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unrated. Permanent value 6900000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-magnet' AS id, 570000000 AS regular_value, 4890000000 AS permanent_value, 7 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unstable. Permanent value 4890000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-mammoth' AS id, 4100000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-dough' AS id, 4100000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-gas' AS id, 4520000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-spirit' AS id, 4520000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-tiger' AS id, 5150000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-yeti' AS id, 5150000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-kitsune' AS id, 5980000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-control' AS id, 5980000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-dragon' AS id, 6900000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-magnet' AS id, 4890000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-blade-lime' AS id, 10000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-nuclear' AS id, 540000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-thermite' AS id, 510000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-azura' AS id, 570000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-celebration' AS id, 10000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-emerald' AS id, 180000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-rose-quartz' AS id, 240000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-topaz' AS id, 10000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-ruby' AS id, 110000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-ghost-scarlet' AS id, 20000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-gravity-starlight' AS id, 420000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-purple' AS id, 4860000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-yellow' AS id, 150000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-green' AS id, 270000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-red' AS id, 2340000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-portal-divine' AS id, 2610000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-kitsune-crimson' AS id, 7860000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-kitsune-galaxy' AS id, 9750000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-magnet-arcsteel' AS id, 2820000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-yeti-runic' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'gamepass-fruit-notifier' AS id, 3410000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-dark-blade' AS id, 900000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-mythical-scrolls' AS id, 1340000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-legendary-scrolls' AS id, 570000000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-fruit-storage' AS id, 360000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-mastery' AS id, 390000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-money' AS id, 390000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-boss-drops' AS id, 240000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-fast-boats' AS id, 240000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'limited-doghouse-frame-break' AS id, 17670000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-rabid-dog-blade' AS id, 26670000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-dog-blade' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-fiend-yeti' AS id, 1260000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-ember-west-dragon' AS id, 6780000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-vibe-frame-break' AS id, 14370000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Unstable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-runic-fiend' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-meme-meme' AS id, 6240000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-parrot' AS id, 7590000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-werewolf' AS id, 1320000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-super-spirit-pain' AS id, 2700000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-torment-pain' AS id, 110000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-sadness-pain' AS id, 540000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-frustration-pain' AS id, 540000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-celestial-pain' AS id, 690000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-requiem' AS id, 210000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-glacier' AS id, 20000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-matrix' AS id, 390000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed) AS seed WHERE (seed.regular_value IS NOT NULL OR seed.permanent_value IS NOT NULL OR seed.demand IS NOT NULL OR seed.trend <> 'unknown') AND NOT EXISTS (SELECT 1 FROM current_values AS existing WHERE existing.fruit_id = seed.id)) > 0;
+SELECT COALESCE((SELECT MAX(version) FROM published_datasets), 0) + 1, 'catalog-seed', CURRENT_TIMESTAMP,
+  (SELECT COUNT(*) FROM eligible),
+  COALESCE((SELECT json_group_array(json_object('id', eligible.id, 'regularValue', eligible.regular_value, 'permanentValue', eligible.permanent_value)) FROM eligible), '[]')
+WHERE EXISTS (SELECT 1 FROM eligible);
 
+WITH seed(id, regular_value, permanent_value, demand, trend, confidence, note, observed) AS (VALUES
+  ('fruit-rocket', 5000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spin', 7500, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-blade', 50000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spring', 60000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-bomb', 80000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-smoke', 100000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spike', 180000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-flame', 250000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-ice', 550000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-sand', 420000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-dark', 400000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-eagle', 800000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-diamond', 1000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-light', 800000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-rubber', 700000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-ghost', 800000, NULL, 1, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Underpaid', '2026-10-17'),
+  ('fruit-magma', 1150000, NULL, 5, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('fruit-quake', 1000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-buddha', 10000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('fruit-love', 1500000, NULL, 3, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-creation', 2500000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spider', 1500000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-sound', 2500000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-phoenix', 2750000, NULL, 3, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-portal', 10000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('fruit-lightning', 30000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-pain', 10000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-blizzard', 5000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-gravity', 10000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-mammoth', 10000000, 4100000000, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-t-rex', 20000000, NULL, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-dough', 30000000, 4100000000, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-shadow', 6500000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-venom', 25000000, NULL, 9, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-gas', 60000000, 4520000000, 9, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-spirit', 10000000, 4520000000, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-tiger', 100000000, 5150000000, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-yeti', 90000000, 5150000000, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-kitsune', 540000000, 5980000000, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-control', 120000000, 5980000000, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-dragon', NULL, 6900000000, NULL, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unrated. Permanent value 6900000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-magnet', 570000000, 4890000000, 7, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unstable. Permanent value 4890000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('perm-fruit-mammoth', 4100000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-dough', 4100000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-gas', 4520000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-spirit', 4520000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-tiger', 5150000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-yeti', 5150000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-kitsune', 5980000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-control', 5980000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-dragon', 6900000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-magnet', 4890000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('skin-blade-lime', 10000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-nuclear', 540000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-thermite', 510000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-azura', 570000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-celebration', 10000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-emerald', 180000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-rose-quartz', 240000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-topaz', 10000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-ruby', 110000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-ghost-scarlet', 20000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-gravity-starlight', 420000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-purple', 4860000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-yellow', 150000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-green', 270000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-red', 2340000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-portal-divine', 2610000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('skin-kitsune-crimson', 7860000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-kitsune-galaxy', 9750000000, NULL, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-magnet-arcsteel', 2820000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-yeti-runic', 1800000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('gamepass-fruit-notifier', 3410000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-dark-blade', 900000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-mythical-scrolls', 1340000000, NULL, 4, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-legendary-scrolls', 570000000, NULL, 3, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-fruit-storage', 360000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-2x-mastery', 390000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-2x-money', 390000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-2x-boss-drops', 240000000, NULL, 8, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-fast-boats', 240000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('limited-doghouse-frame-break', 17670000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON', '2026-10-17'),
+  ('limited-rabid-dog-blade', 26670000000, NULL, 8, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON', '2026-10-17'),
+  ('limited-dog-blade', 1800000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('limited-fiend-yeti', 1260000000, NULL, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-ember-west-dragon', 6780000000, NULL, 9, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-vibe-frame-break', 14370000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Unstable', '2026-10-17'),
+  ('limited-runic-fiend', 1800000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-meme-meme', 6240000000, NULL, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-parrot', 7590000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-werewolf', 1320000000, NULL, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-super-spirit-pain', 2700000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-torment-pain', 110000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-sadness-pain', 540000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-frustration-pain', 540000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-celestial-pain', 690000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-eagle-requiem', 210000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-eagle-glacier', 20000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-eagle-matrix', 390000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17')
+), eligible AS (SELECT * FROM seed WHERE (seed.regular_value IS NOT NULL OR seed.permanent_value IS NOT NULL OR seed.demand IS NOT NULL OR seed.trend <> 'unknown') AND NOT EXISTS (SELECT 1 FROM current_values AS existing WHERE existing.fruit_id = seed.id))
 INSERT INTO value_history(fruit_id, dataset_version, previous_regular_value, regular_value, previous_permanent_value, permanent_value, previous_demand, demand, previous_trend, trend, previous_confidence, confidence, previous_note, note, changed_by, changed_at)
-SELECT seed.id, (SELECT MAX(version) FROM published_datasets), NULL, seed.regular_value, NULL, seed.permanent_value, NULL, seed.demand, NULL, seed.trend, NULL, seed.confidence, NULL, seed.note, 'catalog-seed', CURRENT_TIMESTAMP
-FROM (SELECT 'fruit-rocket' AS id, 5000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spin' AS id, 7500 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-blade' AS id, 50000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spring' AS id, 60000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-bomb' AS id, 80000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-smoke' AS id, 100000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spike' AS id, 180000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-flame' AS id, 250000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-ice' AS id, 550000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-sand' AS id, 420000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dark' AS id, 400000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-eagle' AS id, 800000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-diamond' AS id, 1000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-light' AS id, 800000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-rubber' AS id, 700000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-ghost' AS id, 800000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Underpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-magma' AS id, 1150000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-quake' AS id, 1000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-buddha' AS id, 10000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-love' AS id, 1500000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-creation' AS id, 2500000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spider' AS id, 1500000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-sound' AS id, 2500000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-phoenix' AS id, 2750000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-portal' AS id, 10000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-lightning' AS id, 30000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-pain' AS id, 10000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-blizzard' AS id, 5000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-gravity' AS id, 10000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-mammoth' AS id, 10000000 AS regular_value, 4100000000 AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-t-rex' AS id, 20000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dough' AS id, 30000000 AS regular_value, 4100000000 AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-shadow' AS id, 6500000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-venom' AS id, 25000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-gas' AS id, 60000000 AS regular_value, 4520000000 AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spirit' AS id, 10000000 AS regular_value, 4520000000 AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-tiger' AS id, 100000000 AS regular_value, 5150000000 AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-yeti' AS id, 90000000 AS regular_value, 5150000000 AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-kitsune' AS id, 540000000 AS regular_value, 5980000000 AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-control' AS id, 120000000 AS regular_value, 5980000000 AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dragon' AS id, NULL AS regular_value, 6900000000 AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unrated. Permanent value 6900000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-magnet' AS id, 570000000 AS regular_value, 4890000000 AS permanent_value, 7 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unstable. Permanent value 4890000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-mammoth' AS id, 4100000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-dough' AS id, 4100000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-gas' AS id, 4520000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-spirit' AS id, 4520000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-tiger' AS id, 5150000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-yeti' AS id, 5150000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-kitsune' AS id, 5980000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-control' AS id, 5980000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-dragon' AS id, 6900000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-magnet' AS id, 4890000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-blade-lime' AS id, 10000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-nuclear' AS id, 540000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-thermite' AS id, 510000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-azura' AS id, 570000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-celebration' AS id, 10000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-emerald' AS id, 180000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-rose-quartz' AS id, 240000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-topaz' AS id, 10000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-ruby' AS id, 110000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-ghost-scarlet' AS id, 20000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-gravity-starlight' AS id, 420000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-purple' AS id, 4860000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-yellow' AS id, 150000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-green' AS id, 270000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-red' AS id, 2340000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-portal-divine' AS id, 2610000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-kitsune-crimson' AS id, 7860000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-kitsune-galaxy' AS id, 9750000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-magnet-arcsteel' AS id, 2820000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-yeti-runic' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'gamepass-fruit-notifier' AS id, 3410000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-dark-blade' AS id, 900000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-mythical-scrolls' AS id, 1340000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-legendary-scrolls' AS id, 570000000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-fruit-storage' AS id, 360000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-mastery' AS id, 390000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-money' AS id, 390000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-boss-drops' AS id, 240000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-fast-boats' AS id, 240000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'limited-doghouse-frame-break' AS id, 17670000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-rabid-dog-blade' AS id, 26670000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-dog-blade' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-fiend-yeti' AS id, 1260000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-ember-west-dragon' AS id, 6780000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-vibe-frame-break' AS id, 14370000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Unstable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-runic-fiend' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-meme-meme' AS id, 6240000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-parrot' AS id, 7590000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-werewolf' AS id, 1320000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-super-spirit-pain' AS id, 2700000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-torment-pain' AS id, 110000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-sadness-pain' AS id, 540000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-frustration-pain' AS id, 540000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-celestial-pain' AS id, 690000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-requiem' AS id, 210000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-glacier' AS id, 20000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-matrix' AS id, 390000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed) AS seed
-WHERE (seed.regular_value IS NOT NULL OR seed.permanent_value IS NOT NULL OR seed.demand IS NOT NULL OR seed.trend <> 'unknown') AND NOT EXISTS (SELECT 1 FROM current_values AS existing WHERE existing.fruit_id = seed.id);
+SELECT eligible.id, (SELECT MAX(version) FROM published_datasets), NULL, eligible.regular_value, NULL, eligible.permanent_value, NULL, eligible.demand, NULL, eligible.trend, NULL, eligible.confidence, NULL, eligible.note, 'catalog-seed', CURRENT_TIMESTAMP
+FROM eligible;
 
+WITH seed(id, regular_value, permanent_value, demand, trend, confidence, note, observed) AS (VALUES
+  ('fruit-rocket', 5000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spin', 7500, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-blade', 50000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spring', 60000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-bomb', 80000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-smoke', 100000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spike', 180000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-flame', 250000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-ice', 550000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-sand', 420000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-dark', 400000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-eagle', 800000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-diamond', 1000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-light', 800000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-rubber', 700000, NULL, 1, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-ghost', 800000, NULL, 1, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Underpaid', '2026-10-17'),
+  ('fruit-magma', 1150000, NULL, 5, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('fruit-quake', 1000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-buddha', 10000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('fruit-love', 1500000, NULL, 3, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-creation', 2500000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-spider', 1500000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-sound', 2500000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-phoenix', 2750000, NULL, 3, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-portal', 10000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('fruit-lightning', 30000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-pain', 10000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-blizzard', 5000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-gravity', 10000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-mammoth', 10000000, 4100000000, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-t-rex', 20000000, NULL, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-dough', 30000000, 4100000000, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-shadow', 6500000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-venom', 25000000, NULL, 9, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('fruit-gas', 60000000, 4520000000, 9, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-spirit', 10000000, 4520000000, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-tiger', 100000000, 5150000000, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-yeti', 90000000, 5150000000, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-kitsune', 540000000, 5980000000, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-control', 120000000, 5980000000, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-dragon', NULL, 6900000000, NULL, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unrated. Permanent value 6900000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('fruit-magnet', 570000000, 4890000000, 7, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unstable. Permanent value 4890000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17', '2026-10-17'),
+  ('perm-fruit-mammoth', 4100000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-dough', 4100000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-gas', 4520000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-spirit', 4520000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-tiger', 5150000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-yeti', 5150000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-kitsune', 5980000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-control', 5980000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-dragon', 6900000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('perm-fruit-magnet', 4890000000, NULL, NULL, 'unknown', 'unrated', 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value', '2026-10-17'),
+  ('skin-blade-lime', 10000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-nuclear', 540000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-thermite', 510000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-azura', 570000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-bomb-celebration', 10000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-emerald', 180000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-rose-quartz', 240000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-topaz', 10000000, NULL, 2, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-diamond-ruby', 110000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-ghost-scarlet', 20000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-gravity-starlight', 420000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-purple', 4860000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-yellow', 150000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-green', 270000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-lightning-red', 2340000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-portal-divine', 2610000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('skin-kitsune-crimson', 7860000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-kitsune-galaxy', 9750000000, NULL, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-magnet-arcsteel', 2820000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('skin-yeti-runic', 1800000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('gamepass-fruit-notifier', 3410000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-dark-blade', 900000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-mythical-scrolls', 1340000000, NULL, 4, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-legendary-scrolls', 570000000, NULL, 3, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-fruit-storage', 360000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-2x-mastery', 390000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-2x-money', 390000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-2x-boss-drops', 240000000, NULL, 8, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('gamepass-fast-boats', 240000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value', '2026-10-15'),
+  ('limited-doghouse-frame-break', 17670000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON', '2026-10-17'),
+  ('limited-rabid-dog-blade', 26670000000, NULL, 8, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON', '2026-10-17'),
+  ('limited-dog-blade', 1800000000, NULL, 10, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid', '2026-10-17'),
+  ('limited-fiend-yeti', 1260000000, NULL, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-ember-west-dragon', 6780000000, NULL, 9, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-vibe-frame-break', 14370000000, NULL, 9, 'unknown', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Unstable', '2026-10-17'),
+  ('limited-runic-fiend', 1800000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-meme-meme', 6240000000, NULL, 8, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-parrot', 7590000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-werewolf', 1320000000, NULL, 10, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-super-spirit-pain', 2700000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-torment-pain', 110000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-sadness-pain', 540000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-frustration-pain', 540000000, NULL, 5, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-celestial-pain', 690000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-eagle-requiem', 210000000, NULL, 6, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-eagle-glacier', 20000000, NULL, 4, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17'),
+  ('limited-eagle-matrix', 390000000, NULL, 7, 'stable', 'unrated', 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable', '2026-10-17')
+), eligible AS (SELECT * FROM seed WHERE (seed.regular_value IS NOT NULL OR seed.permanent_value IS NOT NULL OR seed.demand IS NOT NULL OR seed.trend <> 'unknown') AND NOT EXISTS (SELECT 1 FROM current_values AS existing WHERE existing.fruit_id = seed.id))
 INSERT OR IGNORE INTO current_values(fruit_id, regular_value, permanent_value, demand, trend, confidence, note, last_updated, last_published, dataset_version)
-SELECT seed.id, seed.regular_value, seed.permanent_value, seed.demand, seed.trend, seed.confidence, seed.note, seed.observed, seed.observed, (SELECT MAX(version) FROM published_datasets)
-FROM (SELECT 'fruit-rocket' AS id, 5000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spin' AS id, 7500 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-blade' AS id, 50000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spring' AS id, 60000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-bomb' AS id, 80000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-smoke' AS id, 100000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spike' AS id, 180000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-flame' AS id, 250000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-ice' AS id, 550000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-sand' AS id, 420000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dark' AS id, 400000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-eagle' AS id, 800000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-diamond' AS id, 1000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-light' AS id, 800000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-rubber' AS id, 700000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-ghost' AS id, 800000 AS regular_value, NULL AS permanent_value, 1 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Underpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-magma' AS id, 1150000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-quake' AS id, 1000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-buddha' AS id, 10000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-love' AS id, 1500000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-creation' AS id, 2500000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spider' AS id, 1500000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-sound' AS id, 2500000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-phoenix' AS id, 2750000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-portal' AS id, 10000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-lightning' AS id, 30000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-pain' AS id, 10000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-blizzard' AS id, 5000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-gravity' AS id, 10000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-mammoth' AS id, 10000000 AS regular_value, 4100000000 AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-t-rex' AS id, 20000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dough' AS id, 30000000 AS regular_value, 4100000000 AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Overpaid. Permanent value 4100000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-shadow' AS id, 6500000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-venom' AS id, 25000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-gas' AS id, 60000000 AS regular_value, 4520000000 AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-spirit' AS id, 10000000 AS regular_value, 4520000000 AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 4520000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-tiger' AS id, 100000000 AS regular_value, 5150000000 AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-yeti' AS id, 90000000 AS regular_value, 5150000000 AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5150000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-kitsune' AS id, 540000000 AS regular_value, 5980000000 AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-control' AS id, 120000000 AS regular_value, 5980000000 AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Stable. Permanent value 5980000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-dragon' AS id, NULL AS regular_value, 6900000000 AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unrated. Permanent value 6900000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'fruit-magnet' AS id, 570000000 AS regular_value, 4890000000 AS permanent_value, 7 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/fruits; observed 2026-10-17; unit community-trading-value; source trend Unstable. Permanent value 4890000000; source: BFFR community values where quote was available; otherwise null; observed 2026-10-17' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-mammoth' AS id, 4100000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-dough' AS id, 4100000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-gas' AS id, 4520000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-spirit' AS id, 4520000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-tiger' AS id, 5150000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-yeti' AS id, 5150000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-kitsune' AS id, 5980000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-control' AS id, 5980000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-dragon' AS id, 6900000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'perm-fruit-magnet' AS id, 4890000000 AS regular_value, NULL AS permanent_value, NULL AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: BFFR community values where quote was available; otherwise null; observed 2026-10-17; unit community-trading-value' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-blade-lime' AS id, 10000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-nuclear' AS id, 540000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-thermite' AS id, 510000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-azura' AS id, 570000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-bomb-celebration' AS id, 10000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-emerald' AS id, 180000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-rose-quartz' AS id, 240000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-topaz' AS id, 10000000 AS regular_value, NULL AS permanent_value, 2 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-diamond-ruby' AS id, 110000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-ghost-scarlet' AS id, 20000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-gravity-starlight' AS id, 420000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-purple' AS id, 4860000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-yellow' AS id, 150000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-green' AS id, 270000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-lightning-red' AS id, 2340000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-portal-divine' AS id, 2610000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-kitsune-crimson' AS id, 7860000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-kitsune-galaxy' AS id, 9750000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-magnet-arcsteel' AS id, 2820000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'skin-yeti-runic' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'gamepass-fruit-notifier' AS id, 3410000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-dark-blade' AS id, 900000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-mythical-scrolls' AS id, 1340000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-legendary-scrolls' AS id, 570000000 AS regular_value, NULL AS permanent_value, 3 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-fruit-storage' AS id, 360000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-mastery' AS id, 390000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-money' AS id, 390000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-2x-boss-drops' AS id, 240000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'gamepass-fast-boats' AS id, 240000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/gamepasses; observed 2026-10-15; unit community-trading-value' AS note, '2026-10-15' AS observed
-UNION ALL
-SELECT 'limited-doghouse-frame-break' AS id, 17670000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-rabid-dog-blade' AS id, 26670000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend SOON' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-dog-blade' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Overpaid' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-fiend-yeti' AS id, 1260000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-ember-west-dragon' AS id, 6780000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-vibe-frame-break' AS id, 14370000000 AS regular_value, NULL AS permanent_value, 9 AS demand, 'unknown' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Unstable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-runic-fiend' AS id, 1800000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-meme-meme' AS id, 6240000000 AS regular_value, NULL AS permanent_value, 8 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-parrot' AS id, 7590000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-werewolf' AS id, 1320000000 AS regular_value, NULL AS permanent_value, 10 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-super-spirit-pain' AS id, 2700000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-torment-pain' AS id, 110000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-sadness-pain' AS id, 540000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-frustration-pain' AS id, 540000000 AS regular_value, NULL AS permanent_value, 5 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-celestial-pain' AS id, 690000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-requiem' AS id, 210000000 AS regular_value, NULL AS permanent_value, 6 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-glacier' AS id, 20000000 AS regular_value, NULL AS permanent_value, 4 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed
-UNION ALL
-SELECT 'limited-eagle-matrix' AS id, 390000000 AS regular_value, NULL AS permanent_value, 7 AS demand, 'stable' AS trend, 'unrated' AS confidence, 'Source: bloxfruitsvalues.net/values/limiteds; observed 2026-10-17; unit community-trading-value; source trend Stable' AS note, '2026-10-17' AS observed) AS seed
-WHERE (seed.regular_value IS NOT NULL OR seed.permanent_value IS NOT NULL OR seed.demand IS NOT NULL OR seed.trend <> 'unknown') AND NOT EXISTS (SELECT 1 FROM current_values AS existing WHERE existing.fruit_id = seed.id);
+SELECT eligible.id, eligible.regular_value, eligible.permanent_value, eligible.demand, eligible.trend, eligible.confidence, eligible.note, eligible.observed, eligible.observed, (SELECT MAX(version) FROM published_datasets)
+FROM eligible;
