@@ -117,7 +117,7 @@ The Worker validates the Access JWT signature, issuer, expiration, audience, and
 
 Change `PUBLIC_SITE_URL` in `wrangler.jsonc` to the HTTPS production URL. The placeholder `.example` domain must be replaced before launch so sitemap and robots output point at the real site. Optionally change `src/config.ts` to rename FruitForge; that file also holds the calculator’s safe fairness tolerance and disabled AdSense configuration.
 
-Deploy once from the configured repository, then add the production custom domain in **Cloudflare → Workers & Pages → fruitforge → Settings → Domains & Routes**. The Worker uses same-origin API calls, so no cross-origin API allowlist is needed.
+Deploy once from the configured repository, then add the production custom domain in **Cloudflare → Workers & Pages → fruitforge → Settings → Domains & Routes**. The production `npm run deploy` command applies pending remote D1 migrations before building and deploying the Worker. The Worker uses same-origin API calls, so no cross-origin API allowlist is needed.
 
 ### 4. Connect GitHub automatic deployment
 
@@ -126,7 +126,9 @@ Create a GitHub repository, commit the project, and use `main` as its production
 - `CLOUDFLARE_API_TOKEN` — a token scoped to this account with Workers Scripts edit and D1 edit permissions.
 - `CLOUDFLARE_ACCOUNT_ID` — your Cloudflare account ID.
 
-The included `.github/workflows/deploy.yml` runs on pushes to `main`. It installs the locked packages, applies remote D1 migrations, builds the site, and deploys the Worker and `dist/` assets in one operation. Pull requests do not deploy automatically; use the isolated preview commands below.
+The included `.github/workflows/deploy.yml` runs on pushes to `main` and calls `npm run deploy`, which applies remote D1 migrations, builds the site, and deploys the Worker and `dist/` assets. Pull requests do not deploy automatically; use the isolated preview commands below.
+
+If using Cloudflare Workers Builds instead of this GitHub Actions workflow, set **Settings → Builds → Deploy command** to `npm run deploy`. The default `npx wrangler deploy` only deploys the Worker and does not apply D1 migrations. Ensure the build token can edit D1 databases as well as Workers Scripts.
 
 ### 5. Preview deployments
 

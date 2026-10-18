@@ -9,7 +9,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "worker:dev": "wrangler dev",
-    "deploy": "npm run build && wrangler deploy",
+    "deploy": "npm run db:remote && npm run build && wrangler deploy",
     "db:local": "wrangler d1 migrations apply fruitforge-db --local",
     "db:remote": "wrangler d1 migrations apply fruitforge-db --remote",
     "test": "vitest run"
