@@ -13,7 +13,7 @@
 		{
 			"binding": "DB",
 			"database_name": "fruitforge-db",
-			"database_id": "d4ae1f62-0cee-4e8a-9a13-614c4b6e6aaf",
+			"database_id": "70247a77-040c-4b13-9421-0d8779a7f371",
 			"migrations_dir": "migrations"
 		}
 	],
