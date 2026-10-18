@@ -2,7 +2,7 @@
 
 FruitForge is a full-stack, mobile-ready Blox Fruits values reference, trade calculator, and community trading hub. The public site and API deploy together as one Cloudflare Worker with static assets and a D1 database.
 
-The starting catalog contains **42 canonical fruit entries** sourced from the current Blox Fruits experience page. Trading values are deliberately blank: the game’s Beli/Robux shop prices are not used as trade values, and this repository does not claim live market quotes. An authorized administrator enters and publishes the site’s own reviewed estimates.
+The catalog contains **131 entries** across fruits, permanent fruits, gamepasses, limited assets, and fruit skins. Trading estimates and source metadata are maintained in `data/fruits.json`; Beli and Robux shop prices remain separate and are never used as trading values. D1 seeds available estimates from that file without overwriting existing values. Administrators can review and publish later changes through the values manager.
 
 ## What is included
 
@@ -43,15 +43,15 @@ npx wrangler d1 migrations apply fruitforge-db --local
 npm run worker:dev
 ```
 
-Open the local address printed by Wrangler (normally `http://localhost:8787`). Local D1 starts with the schema and catalog but no published trading values. Cloudflare Access secrets are not set locally, so admin writes fail closed. Test administrator flows in a protected Cloudflare preview environment; there is no local password bypass.
+Open the local address printed by Wrangler (normally `http://localhost:8787`). Local D1 starts with the schema, catalog, and available values from `data/fruits.json`. Cloudflare Access secrets are not set locally, so admin writes fail closed. Test administrator flows in a protected Cloudflare preview environment; there is no local password bypass.
 
-To refresh the seed migration after an approved catalog change, edit `data/fruits.json`, then run:
+To refresh the seed migrations after an approved catalog change, edit `data/fruits.json`, then run:
 
 ```sh
 node scripts/generate-catalog-migration.mjs
 ```
 
-Review the generated `migrations/0002_seed_catalog.sql` before committing it. The migration uses `INSERT OR IGNORE`, so applying it again cannot overwrite catalog identities or published values. Never edit a canonical name or reuse an ID after publication. Deactivate an item through the admin dashboard instead; its ID, old links, and history remain intact.
+Review the generated `migrations/0002_seed_catalog.sql` and `migrations/0003_seed_catalog_values.sql` before committing them. The catalog migration adds missing identities. The values migration imports available source estimates only for items without an existing D1 value row; it preserves existing values and records source details in the note. Unsupported source trend labels are retained in the note and shown as unrated by the app. Never edit a canonical name or reuse an ID after publication. Deactivate an item through the admin dashboard instead; its ID, old links, and history remain intact.
 
 ## Cloudflare setup
 
@@ -77,7 +77,7 @@ npm run db:remote
 npx wrangler d1 migrations apply fruitforge-preview-db --remote --env preview
 ```
 
-The seed only creates catalog entries. It does not create values or replace newer data. Migrations are also applied automatically by the GitHub deployment workflow before it deploys the Worker.
+The catalog seed adds item identities, and the values seed imports available estimates from `data/fruits.json` only where D1 has no existing value row. Neither migration overwrites existing identities or values. Migrations are also applied automatically by the GitHub deployment workflow before it deploys the Worker.
 
 ### 2. Configure administrator authentication
 
