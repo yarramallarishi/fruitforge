@@ -1,0 +1,45 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "fruitforge",
+	"main": "worker/index.ts",
+	"compatibility_date": "2026-10-17",
+	"workers_dev": true,
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS",
+		"not_found_handling": "single-page-application"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "fruitforge-db",
+			"database_id": "d4ae1f62-0cee-4e8a-9a13-614c4b6e6aaf",
+			"migrations_dir": "migrations"
+		}
+	],
+	"vars": {
+		"PUBLIC_SITE_URL": "https://fruitforge.example"
+	},
+	"env": {
+		"preview": {
+			"name": "fruitforge-preview",
+			"workers_dev": true,
+			"assets": {
+				"directory": "./dist",
+				"binding": "ASSETS",
+				"not_found_handling": "single-page-application"
+			},
+			"d1_databases": [
+				{
+					"binding": "DB",
+					"database_name": "fruitforge-preview-db",
+					"database_id": "6efa064f-b099-42be-befa-d52824a7f6d0",
+					"migrations_dir": "migrations"
+				}
+			],
+			"vars": {
+				"PUBLIC_SITE_URL": "https://fruitforge-preview.example"
+			}
+		}
+	}
+}
